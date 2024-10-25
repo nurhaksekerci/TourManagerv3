@@ -90,12 +90,23 @@ def auth_creative(request):
     return render(request, 'login/auth-404-creative.html')
 
 def auth_login(request):
-    return render(request, "login/pages/auth-login-creative.html")
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('some_redirect_url')  # Bu URL'nin tanımlı olduğundan emin ol
+        else:
+            # Hatalı giriş için bir hata mesajı ekleyebilirsin
+            return render(request, 'login/pages/auth-login-creative.html', {'error': 'Invalid username or password'})
+    
+    return render(request, 'login/pages/auth-login-creative.html')
 
 def auth_maintenance(request):
     return render(request, "login/auth-maintenance-creative.html")
-from django.shortcuts import render, redirect
-from .forms import RegistrationForm
+
 
 def auth_register(request):
     if request.method == 'POST':
@@ -104,7 +115,7 @@ def auth_register(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            return redirect('auth-login')  # Kayıt işleminden sonra yönlendirilecek sayfa
+            return redirect('auth_login')  # Kayıt işleminden sonra yönlendirilecek sayfa
     else:
         form = RegistrationForm()
     
