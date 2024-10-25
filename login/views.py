@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 import uuid
 from datetime import timedelta
+from .forms import RegistrationForm 
 
 def request_password_reset(request):
     if request.method == 'POST':
@@ -89,13 +90,27 @@ def auth_creative(request):
     return render(request, 'login/auth-404-creative.html')
 
 def auth_login(request):
-    return render(request, "login/auth-login-creative.html")
+    return render(request, "login/pages/auth-login-creative.html")
 
 def auth_maintenance(request):
     return render(request, "login/auth-maintenance-creative.html")
+from django.shortcuts import render, redirect
+from .forms import RegistrationForm
 
 def auth_register(request):
-    return render(request, "login/auth-register-creative.html")
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('auth-login')  # Kayıt işleminden sonra yönlendirilecek sayfa
+    else:
+        form = RegistrationForm()
+    
+    return render(request, 'login/pages/auth-register-creative.html', {'form': form})
+
+
 
 def auth_reset(request):
     return render(request, "login/auth-reset-creative.html")
