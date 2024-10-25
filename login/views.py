@@ -80,3 +80,28 @@ def user_login(request):
 def login_logs(request):
     logs = LoginLog.objects.all().order_by('-timestamp')
     return render(request, 'login_logs.html', {'logs': logs})
+
+
+def base(request):
+    return render(request, 'login/base.html')
+
+def auth_creative(request):
+    return render(request, 'login/auth-404-creative.html')
+
+def auth_login(request):
+    return render(request, "login/auth-login-creative.html")
+
+def auth_maintenance(request):
+    return render(request, "login/auth-maintenance-creative.html")
+
+def auth_register(request):
+    return render(request, "login/auth-register-creative.html")
+
+def auth_reset(request):
+    return render(request, "login/auth-reset-creative.html")
+
+def auth_resetting(request):
+    return render(request, "login/auth-resetting-creative.html")
+
+def auth_verify(request):
+    return render(request, "login/auth-verify-creative.html")
