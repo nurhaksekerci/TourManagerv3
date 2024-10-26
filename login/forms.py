@@ -18,3 +18,11 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError("Passwords do not match.")
 
         return cleaned_data
+
+
+class PasswordResetForm(forms.Form):
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control', 
+        'placeholder': 'Phone Number', 
+        'required': True
+    }), label='Phone Number')
