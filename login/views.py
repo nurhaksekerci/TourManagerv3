@@ -133,6 +133,8 @@ def auth_company(request):
         if form.is_valid():
            company = form.save()  # Form geçerli ise veritabanına kaydeder
            branch = Branch.objects.create(name="Main", city=company.city, district=company.district, neighborhood=company.neighborhood, address=company.address, company=company)
+           company.branch = 0
+           company.save()
            return redirect("auth_register", id=branch.id)
             # Başarılı bir kayıttan sonra yönlendirme yapılabilir, örneğin:
             # return redirect('başarılı sayfa veya giriş sayfası')

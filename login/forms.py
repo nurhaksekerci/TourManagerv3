@@ -38,17 +38,13 @@ class CompanyForm(forms.ModelForm):
             'district',
             'neighborhood',
             'address',
-            'complete_at',
-            'branch',
         ]
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'city': forms.Select(attrs={'class': 'form-control'}),
             'district': forms.Select(attrs={'class': 'form-control'}),
             'neighborhood': forms.Select(attrs={'class': 'form-control'}),
-            'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'complete_at': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'branch': forms.NumberInput(attrs={'class': 'form-control'}),
+            'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
         }
         labels = {
             'name': 'Name',
@@ -56,15 +52,7 @@ class CompanyForm(forms.ModelForm):
             'district': 'District',
             'neighborhood': 'Neighborhood',
             'address': 'Address',
-            'complete_at': 'Complete Date',
-            'branch': 'Branch',
         }
-
-    def clean_branch(self):
-        branch = self.cleaned_data.get('branch')
-        if branch < 1:
-            raise forms.ValidationError("Branch must be a positive integer.")
-        return branch
 
 class BranchForm(forms.ModelForm):
     class Meta:
