@@ -14,43 +14,30 @@
                 <h2 class="fs-20 fw-bolder mb-4">Register</h2>
                 <h4 class="fs-13 fw-bold mb-2">Daphne Tour</h4>
                 <p class="fs-12 fw-medium text-muted">You need to enter the details of the company representative.</p>
-                <form method="POST" class="w-100 mt-4 pt-2">
+                <form method="POST" action="{% url 'auth_company' %}" class="w-100 mt-4 pt-2">
                   {% csrf_token %}
-                  <div class="mb-4">
-                    <input type="text" name="first_name" class="form-control" placeholder="First Name" required />
-                  </div>
-                  <div class="mb-4">
-                    <input type="text" name="last_name" class="form-control" placeholder="Last Name" required />
-                  </div>
-                  <div class="mb-4">
-                    <input type="email" name="email" class="form-control" placeholder="Email" required />
-                  </div>
-                  <div class="mb-4">
-                    <input type="text" name="phone" class="form-control" placeholder="Phone" required />
-                  </div>
-                  <div class="mb-4">
-                    <input type="tel" name="username" class="form-control" placeholder="Username" required />
-                  </div>
-                  <div class="mb-4 generate-pass">
-                    <div class="input-group field">
-                      <input type="password" name="password" class="form-control password" id="newPassword" placeholder="Password" required />
-                      <div class="input-group-text c-pointer gen-pass" data-bs-toggle="tooltip" title="Generate Password">
-                        <i class="feather-hash"></i>
-                      </div>
-                      <div class="input-group-text border-start bg-gray-2 c-pointer show-pass" data-bs-toggle="tooltip" title="Show/Hide Password">
-                        <i></i>
-                      </div>
-                    </div>
-                    <div class="progress-bar mt-2">
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                    </div>
-                  </div>
-                  <div class="mb-4">
-                    <input type="password" name="password_confirm" class="form-control" placeholder="Confirm Password" required />
-                  </div>
+                  {{ form.non_field_errors }}
+                  <div class="mb-4">{{ form.name.label }}
+                    {{ form.name }}
+                    {{ form.name.errors }}</div>
+                  <div class="mb-4">{{ form.city.label }}
+                    {{ form.city }}
+                    {{ form.city.errors }}</div>
+                  <div class="mb-4">{{ form.district.label }}
+                    {{ form.district }}
+                    {{ form.district.errors }}</div>
+                  <div class="mb-4">{{ form.neighborhood.label }}
+                    {{ form.neighborhood }}
+                    {{ form.neighborhood.errors }}</div>
+                  <div class="mb-4">{{ form.address.label }}
+                    {{ form.address }}
+                    {{ form.address.errors }}</div>
+                  <div class="mb-4">{{ form.complete_at.label }}
+                    {{ form.complete_at }}
+                    {{ form.complete_at.errors }}</div>
+                  <div class="mb-4">{{ form.branch.label }}
+                    {{ form.branch }}
+                    {{ form.branch.errors }}</div>
                   <div class="mt-4">
                     <div class="custom-control custom-checkbox mb-2">
                       <input type="checkbox" class="custom-control-input" id="receiveMail" name="receive_mail" required />

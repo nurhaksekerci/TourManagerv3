@@ -9,6 +9,8 @@ from django.conf import settings
 import uuid
 from datetime import timedelta
 from .forms import RegistrationForm 
+from .forms import CompanyForm
+from company.models import *
 
 def request_password_reset(request):
     if request.method == 'POST':
@@ -108,19 +110,36 @@ def auth_maintenance(request):
     return render(request, "login/auth-maintenance-creative.html")
 
 
-def auth_register(request):
+def auth_register(request, id):
     if request.method == 'POST':
+        phone = request.POST.get("phone")
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+            branch = Branch.objects.get(id=id)
+            employee = Employee.objects.create(branch=branch, user=user, phone=phone, is_manager=True, terms_read=True, kvkk_read=True )
             return redirect('auth_login')  # Kayıt işleminden sonra yönlendirilecek sayfa
     else:
         form = RegistrationForm()
     
     return render(request, 'login/pages/auth-register-creative.html', {'form': form})
 
+
+def auth_company(request):
+    if request.method == 'POST':
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+           company = form.save()  # Form geçerli ise veritabanına kaydeder
+           branch = Branch.objects.create(name="Main", city=company.city, district=company.district, neighborhood=company.neighborhood, address=company.address, company=company)
+           return redirect("auth_register", id=branch.id)
+            # Başarılı bir kayıttan sonra yönlendirme yapılabilir, örneğin:
+            # return redirect('başarılı sayfa veya giriş sayfası')
+    else:
+        form = CompanyForm()
+    
+    return render(request, 'login/pages/auth-company-register.html', {'form': form})
 
 
 def auth_reset(request):
